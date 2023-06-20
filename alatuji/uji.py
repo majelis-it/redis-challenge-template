@@ -8,7 +8,7 @@ import os
 from postgrest.base_request_builder import APIResponse
 #postgrest.base_request_builder.APIResponse
 
-def send_score(scores: list, logs: str):
+def send_score(scores: list, logs: str, time_elapsed_millis: int):
     print("Sending score to supabase")
     url: str = os.environ.get("SUPABASE_URL")
     key: str = os.environ.get("SUPABASE_KEY")
@@ -42,7 +42,7 @@ def send_score(scores: list, logs: str):
             success += 1
     
     supabase.table("score_board").update({
-        "scores": {"success": success, "total": total}
+        "scores": {"success": success, "total": total, "duration": time_elapsed_millis}
     }).eq("id", participant["id"]).execute()
     print("Done sending score to supabase")
 
@@ -129,6 +129,10 @@ def main():
     
     results = []
     logs_errors = ""
+    time_elapsed_millis = 0
+
+    import datetime
+    a = datetime.datetime.now()
 
     try:
         fn_res = test_case_ping_redis()
@@ -170,6 +174,10 @@ def main():
         logs_errors += str(e)
         logs_errors += traceback.format_exc()
 
+    b = datetime.datetime.now()
+    delta = b - a
+    time_elapsed_millis = int(delta.total_seconds() * 1000)
+
     print("Test Results:")
     print("=============")
     for i, res in enumerate(results):
@@ -179,7 +187,7 @@ def main():
     print("============")
     print(logs_errors)
 
-    send_score(results, logs_errors)
+    send_score(results, logs_errors, time_elapsed_millis)
 
 
 if __name__ == '__main__':
