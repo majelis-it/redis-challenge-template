@@ -1,5 +1,5 @@
 import socket
-
+import time
 
 def main():
     """
@@ -8,10 +8,12 @@ def main():
     bisa menggunakan bahasa pemograman lain
     tidak ada pembatasan menggunakan stack teknologi yang lain
     ini hanyalah contoh
-    namun tcp harus me listen pada port 6379 dan host 127.0.0.1
+    namun tcp harus me listen pada port 6379 dan host 0.0.0.0
     """
-    HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
-    PORT = 6379  # Port to listen on (non-privileged ports are > 1023)
+    HOST = "0.0.0.0" 
+    PORT = 6379  
+
+    print("Starting server...")
     
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((HOST, PORT))
@@ -24,7 +26,10 @@ def main():
                 print(data)
                 if not data:
                     break
-                conn.sendall(data)
+                if 'PING' in data.decode():
+                    conn.sendall("+PONG\r\n".encode())
+                else:
+                    conn.sendall("+OK\r\n".encode())
 
 
 if __name__ == '__main__':
