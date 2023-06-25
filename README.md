@@ -74,6 +74,7 @@ sekarang Majelis IT ingin men challenge kalian untuk melakukan software engineer
 ### 📚 Referensi untuk mengerjakan
 - https://app.codecrafters.io/courses/redis/overview | !!diharapkan untuk dijadikan referensi bukan copy paste code
 - https://www.interviewcake.com/concept/java/hash-map | referensi hashmap
+- https://www.pankajtanwar.in/blog/how-redis-expires-keys-a-deep-dive-into-how-ttl-works-internally-in-redis | TTL redis under the hood
 
 ### ⚠️ Peraturan
 - Peserta harus mendaftarkan github repo url yang digunakan untuk mengerjakan challenge di https://majelisit-challenge-board.vercel.app/challenge/1
