@@ -1,5 +1,5 @@
 import redis
-from typing import Dict 
+from typing import Dict
 from uuid import uuid4
 import time
 import traceback
@@ -9,6 +9,7 @@ from postgrest.base_request_builder import APIResponse
 import subprocess
 #postgrest.base_request_builder.APIResponse
 
+
 def send_score(scores: list, logs: str, time_elapsed_millis: int):
     print("Sending score to supabase")
     url: str = os.environ.get("SUPABASE_URL")
@@ -16,24 +17,28 @@ def send_score(scores: list, logs: str, time_elapsed_millis: int):
     github_repo: str = os.environ.get("GITHUB_REPO_URL")
     supabase: Client = create_client(url, key)
 
-    participant: APIResponse = supabase\
-        .table("score_board")\
-        .select("*")\
-        .eq("github_repository", github_repo)\
-        .execute()
+    participant: APIResponse = supabase.table(
+        "score_board"
+    ).select(
+        "*"
+    ).eq(
+        "github_repository", github_repo
+    ).execute()
 
     if len(participant.data) == 0:
         raise Exception("Participant not found")
 
     participant = participant.data[0]
+
     print(len(logs))
-    supabase\
-        .table("attempts")\
-        .insert({
-            'score_board_id': participant["id"],
-            'scores': scores,
-            'test_output':  str(logs),
-        }).execute()
+
+    supabase.table(
+        "attempts"
+    ).insert({
+        'score_board_id': participant["id"],
+        'scores': scores,
+        'test_output':  str(logs),
+    }).execute()
 
     # count progress
     success = 0
@@ -41,12 +46,12 @@ def send_score(scores: list, logs: str, time_elapsed_millis: int):
     for score in scores:
         if score["result"]:
             success += 1
-    
+
     supabase.table("score_board").update({
         "scores": {"success": success, "total": total, "duration": time_elapsed_millis}
     }).eq("id", participant["id"]).execute()
-    print("Done sending score to supabase")
 
+    print("Done sending score to supabase")
 
 
 def make_client() -> redis.Redis:
@@ -77,13 +82,13 @@ def test_case_set_redis() -> bool:
     return True
 
 def test_case_get_redis() -> bool:
-    client = make_client() 
+    client = make_client()
 
     key = str(uuid4())
 
     client.set(key, "1")
 
-    if client.get(key).decode() != "1": 
+    if client.get(key).decode() != "1":
         return False
 
     if client.get(f"{key}_#"):
@@ -98,7 +103,7 @@ def test_case_del_redis() -> bool:
     client.set(key, "1")
     if client.get(key).decode() != "1":
         return False
-    
+
     client.delete(key)
 
     if client.get(key):
@@ -127,7 +132,7 @@ def test_case_set_ttl() -> bool:
 
 
 def main():
-    
+
     results = []
     logs_errors = ""
     time_elapsed_millis = 0
@@ -183,7 +188,7 @@ def main():
 
     logs_errors += subprocess\
                     .check_output(["docker", "logs", "redisnya"]).decode()
-                    
+
     print("Test Results:")
     print("=============")
     for i, res in enumerate(results):

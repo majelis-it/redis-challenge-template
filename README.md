@@ -2,17 +2,17 @@
 
 ### 🧾 Pendahuluan
 Halo semua, kali ini Majelis IT mengadakan event challenge yang terbuka untuk umum dan khususnya dibuat untuk para member Majelis IT. Sebelumnya Majelis IT telah banyak mengadakan event yang sebagian besar merupakan webinar
-sekarang Majelis IT ingin men challenge kalian untuk melakukan software engineering dengan mereplika teknologi yang sudah ada, untuk pada challenge pertama ini kalian di tantang untuk membuat redis dari nol.
+sekarang Majelis IT ingin kasih challenge kalian untuk melakukan menguji skill software engineering kalian dengan mereplika teknologi yang sudah ada, untuk pada challenge pertama ini kalian ditantang untuk membuat redis dari nol.
 
 <hr>
 
 ### 🥇 Benefit mengikuti challenge ini
-- Chalege yang tersistemasi dan mudah dalam pengerjaan, pengujian dan penilaianya. selengkapnya tentang teknis akan dijelakan pada point lain di dokumen ini.
-- Sarana mempelajari dan memahami teknologi baru dan me reccal dasar dasar computer science.
-- Sarana belajar bahasa baru bagi yang ingin menjadikan challenge ini sebagai project dari bahasa yang sedang dipelajari.
+- Challenge yang tersistemasi dan mudah dalam pengerjaan, pengujian dan penilaianya. Selengkapnya tentang teknis akan dijelakan pada point lain di dokumen ini.
+- Sarana mempelajari dan memahami teknologi baru dan mengingat kembali dasar-dasar computer science.
+- Sarana belajar bahasa baru bagi yang ingin menjadikan challenge ini sebagai project dari bahasa yang sedang dipelajari, tentunya bisa jadi portofolio kalian.
 - Mengisi waktu luang memacu untuk explorasi lebih dalam bukan hanya mengunakan "redos" tapi paham bagaimana cara kerjanya under the hood
 - Tempat Q&A memadai pada group telegram Majelis IT, free dan sangat welcome untuk diskusi dan bertanya satu dengan yang lain di group telegram Majelis IT untuk berbagi dan sharing pengerjaan challenge.
-- Prize Saldo Gopay: IDR Rp. 100.000 bagi yang memiliki waktu eksekusi tercepat.
+- Prize Saldo Gopay: IDR Rp. 300.000 bagi yang memiliki waktu eksekusi tercepat.
 
 <hr>
 
@@ -40,7 +40,7 @@ sekarang Majelis IT ingin men challenge kalian untuk melakukan software engineer
     (client) -> SET 8313-23-324 tiga -> (app anda) -> OK
     (client) -> SET 8313-23-325 empat -> (app anda) -> OK
     (client) -> SET 8313-23-326 lima -> (app anda) -> OK
-    
+
     (client) -> GET 8313-23-322 -> (app anda) -> satu
     (client) -> GET 8313-23-323 -> (app anda) -> dua
     (client) -> GET 8313-23-324 -> (app anda) -> tiga
@@ -50,14 +50,14 @@ sekarang Majelis IT ingin men challenge kalian untuk melakukan software engineer
 - Operasi GET by key : selengkapnya dapat dibaca di https://redis.io/commands/get/ sebagai referensi
   - Expected: client akan mengirimkan request SET data ke app anda dengan key random uuid, lalu diuji jika dilakukan operasi get dengan key yang benar maka akan succes jika salah maka akan None/Null [POINT 1]
     ```bash
-    (client) -> SET 8313-23-322 1 -> (app anda) -> OK    
+    (client) -> SET 8313-23-322 1 -> (app anda) -> OK
     (client) -> GET 8313-23-322 -> (app anda) -> 1
     (client) -> GET 8313-23-323_# -> (app anda) -> None or negative response redis protocol
     ```
 - Operasi DEL untuk menghapus data: selengkapnya dapat dibaca di https://redis.io/commands/del/ sebagai referensi
   - Expected: client akan mengirimkan request SET data ke app anda dengan key random uuid, lalu diuji jika dilakukan operasi delete dengan key yang benar maka jika dilakukan operasi GET maka akan return None/Null [POINT 1]
     ```bash
-    (client) -> SET 8313-23-322 1 -> (app anda) -> OK    
+    (client) -> SET 8313-23-322 1 -> (app anda) -> OK
     (client) -> DEL 8313-23-322 -> (app anda) -> OK
     (client) -> GET 8313-23-323 -> (app anda) -> None or negative response redis protocol
     ```
@@ -65,7 +65,7 @@ sekarang Majelis IT ingin men challenge kalian untuk melakukan software engineer
 - Operasi SET dengan TTL (Time To Live)/kadaluwarsa: selengkapnya dapat dibaca di https://redis.io/commands/set/ sebagai referensi
   - Expected: client akan mengirimkan request SET data ke app anda dengan key random uuid, value dan TTL selama 2 detik, setelah 5 detik akan dilakukan operasi GET maka akan return None/Null [POINT 1]
     ```bash
-    (client) -> SET 8313-23-322 1 20 -> (app anda) -> OK  
+    (client) -> SET 8313-23-322 1 20 -> (app anda) -> OK
     -- runtime sleep 5 detik --
     (client) -> GET 8313-23-323 -> (app anda) -> None or negative response redis protocol
     ```
@@ -117,5 +117,5 @@ sekarang Majelis IT ingin men challenge kalian untuk melakukan software engineer
 
 
 ### Join Komunitas Majelis IT untuk saling bertukar ilmu dan bertanya tentang challenge ini
-- Join dengan klik link berikut: https://linktr.ee/majelis_it 
+- Join dengan klik link berikut: https://linktr.ee/majelis_it
 
