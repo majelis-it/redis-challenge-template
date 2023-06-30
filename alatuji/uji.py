@@ -1,5 +1,8 @@
+"""
+Test file
+"""
 import redis
-from typing import Dict
+from typing import Dict, List, Tuple
 from uuid import uuid4
 import time
 import traceback
@@ -7,6 +10,7 @@ from supabase import create_client, Client
 import os
 from postgrest.base_request_builder import APIResponse
 import subprocess
+import datetime
 #postgrest.base_request_builder.APIResponse
 
 
@@ -130,15 +134,10 @@ def test_case_set_ttl() -> bool:
 
     return True
 
-
-def main():
+def run_test() -> Tuple[List[dict], str]:
 
     results = []
     logs_errors = ""
-    time_elapsed_millis = 0
-
-    import datetime
-    a = datetime.datetime.now()
 
     try:
         fn_res = test_case_ping_redis()
@@ -180,14 +179,7 @@ def main():
         logs_errors += str(e)
         logs_errors += traceback.format_exc()
 
-    b = datetime.datetime.now()
-    delta = b - a
-    time_elapsed_millis = int(delta.total_seconds() * 1000)
-
-    # add executor logs
-
-    logs_errors += subprocess\
-                    .check_output(["docker", "logs", "redisnya"]).decode()
+    logs_errors += subprocess.check_output(["docker", "logs", "redisnya"]).decode()
 
     print("Test Results:")
     print("=============")
@@ -198,7 +190,20 @@ def main():
     print("============")
     print(logs_errors)
 
-    send_score(results, logs_errors, time_elapsed_millis)
+    return results, logs_errors
+
+
+def main():
+    start_time = datetime.datetime.now()
+
+    results, log_errors: Tuple[List[dict], str] = run_test()
+
+    end_time = datetime.datetime.now()
+    delta = start_time - end_time
+    time_elapsed_millis = int(delta.total_seconds() * 1000) # to millisecond
+    # add executor logs
+
+    send_score(results, log_errors, time_elapsed_millis)
 
 
 if __name__ == '__main__':
